@@ -13,36 +13,35 @@ public class Game extends Application {
     Scene scene;
     Group root;
     
-    
+    private void initStage(Stage stage) {
+        stage.setScene(scene);
+        stage.setTitle("HexagonClone");
+        
+//        stage.setMaxWidth(800);
+        stage.setMinWidth(800);
+//        stage.setMaxHeight(600);
+        stage.setMinHeight(600);
+        
+//        stage.resizableProperty().setValue(false);
+    }
     
     @Override
     public void start(Stage stage) throws Exception {
         
-        Double[] coords = {
-          300.0, 50.0,
-          350.0, 50.0,
-          350.0, 100.0,
-          300.0, 100.0
-        };
+        Side s1 = new Side(0, 25);
         
-        Polygon poly = new Polygon();
-        poly.getPoints().addAll(coords);
-        
-        root = new Group(poly);
+        root = new Group(s1);
         scene = new Scene(root, 800, 600);
-        
-        stage.setScene(scene);
-        stage.setTitle("HexagonClone");
+
+        initStage(stage);
         stage.show();
         
         AnimationTimer animator = new AnimationTimer() {
+            double dir = 0;
+            
             public void handle(long arg0) {
-                poly.getPoints().removeAll(coords);
-                for(int i = 0; i < coords.length; i++) {
-                    coords[i] += 3;
-                }
-                poly.getPoints().addAll(coords);
-                
+                dir += Math.PI / 100;
+                s1.update(dir);
             }
         };
         
