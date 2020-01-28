@@ -17,22 +17,28 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.setTitle("HexagonClone");
         
-//        stage.setMaxWidth(800);
+        stage.setMaxWidth(800);
         stage.setMinWidth(800);
-//        stage.setMaxHeight(600);
+        stage.setMaxHeight(600);
         stage.setMinHeight(600);
         
-//        stage.resizableProperty().setValue(false);
+        stage.resizableProperty().setValue(false);
     }
     
     @Override
     public void start(Stage stage) throws Exception {
         
-        Side s1 = new Side(0, 25);
+//        Side s1 = new Side(0, 25);
         
-        root = new Group(s1);
+//        root = new Group(s1);
+        root = new Group();
         scene = new Scene(root, 800, 600);
-
+        
+        Side[] sides = new Side[6];
+        for(int i = 0; i < sides.length; i++) {
+            sides[i] = new Side(1, 25);
+            root.getChildren().add(sides[i]);
+        }
         initStage(stage);
         stage.show();
         
@@ -41,7 +47,8 @@ public class Game extends Application {
             
             public void handle(long arg0) {
                 dir += Math.PI / 100;
-                s1.update(dir);
+                for(int i = 0; i < sides.length; i++)
+                    sides[i].update(dir +((Math.PI / 3) * i));
             }
         };
         

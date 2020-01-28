@@ -20,37 +20,25 @@ public class Side extends Polygon {
             0d, 0d,
             400d, 300d
         };
-        
     }
-    
-    /*
-     * xCenter + Math.cos(dir) * dist
-     * yCenter + Math.sin(dir) * dist
-     * xCenter + Math.cos(dir) * (dist + size)
-     * yCenter + Math.sin(dir) * (dist + size)
-     * xCenter + Math.cos(dir + (Math.PI / 3)) * (dist + size)
-     * yCenter + Math.sin(dir + (Math.PI / 3)) * (dist + size)
-     * xCenter + Math.cos(dir + (Math.PI / 3)) * dist
-     * yCenter + Math.sin(dir + (Math.PI / 3)) * dist
-     */
     
     public void update(double dir) {
         double xCenter = 400;
         double yCenter = 300;
-        dist = Math.abs(Math.sin(dir) * 300);
+//        dist = Math.abs(Math.sin(dir * 2) * 300);
+//        dist = Math.sin(dir * 2) * 300;
+        dist -= 3;
+        
+        double pointDir;
+        double pointDist;
         
         getPoints().removeAll(coords);
-//        for(int i = 0; i < coords.length; i++) {
-//            
-//        }
-        coords[0] = xCenter + (Math.cos(dir) * dist);
-        coords[1] = yCenter + (Math.sin(dir) * dist);
-        coords[2] = xCenter + (Math.cos(dir) * (dist + size));
-        coords[3] = yCenter + (Math.sin(dir) * (dist + size));
-        coords[4] = xCenter + (Math.cos(dir + 1) * (dist + size));
-        coords[5] = yCenter + (Math.sin(dir + 1) * (dist + size));
-        coords[6] = xCenter + (Math.cos(dir + 1) * dist);
-        coords[7] = yCenter + (Math.sin(dir + 1) * dist);
+        for(int i = 0; i < coords.length; i += 2) {
+            pointDir = i >= 4 ? dir + (Math.PI / 3) : dir;
+            pointDist = i == 2 || i == 4 ? dist + size : dist;
+            coords[i] = xCenter + (Math.cos(pointDir) * pointDist);
+            coords[i + 1] = yCenter + (Math.sin(pointDir) * pointDist);
+        }
         
         getPoints().addAll(coords);
         
