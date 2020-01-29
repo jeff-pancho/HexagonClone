@@ -1,52 +1,56 @@
 package main;
 
-import javafx.scene.shape.Polygon;
+import javafx.scene.canvas.GraphicsContext;
 
-public class Side extends Polygon {
-    private Double[] coords;
+public class Side extends Entity {
+    private double[] xPoints;
+    private double[] yPoints;
     private double size;
     private double dist;
+    private double dir;
     private int side;
     
     Side(int side, double size) {
-        super();
-        this.dist = 600;
+        // starting distance should always be beyond the screen
+        this.dist = 500;
         this.size = size;
         this.side = side;
-        
-        this.coords = new Double[] {
-            0d, 0d,
-            0d, 0d,
-            0d, 0d,
-            400d, 300d
+        this.xPoints = new double[] {
+                0d, 0d, 0d, 0d
         };
+        this.yPoints = new double[] {
+                0d, 0d, 0d, 0d
+        };
+        this.dir = Math.PI / 3 * side;
     }
     
-    public void update(double dir) {
-        double xCenter = 400;
-        double yCenter = 300;
-//        dist = Math.abs(Math.sin(dir * 2) * 300);
-//        dist = Math.sin(dir * 2) * 300;
-        dist -= 3;
-        
+    public void update() {
         double pointDir;
         double pointDist;
+        dir += Math.PI / 100;
+        dist -= 3;
         
-        getPoints().removeAll(coords);
-        for(int i = 0; i < coords.length; i += 2) {
-            pointDir = i >= 4 ? dir + (Math.PI / 3) : dir;
-            pointDist = i == 2 || i == 4 ? dist + size : dist;
-            coords[i] = xCenter + (Math.cos(pointDir) * pointDist);
-            coords[i + 1] = yCenter + (Math.sin(pointDir) * pointDist);
+        for(int i = 0; i < xPoints.length; i++) {
+            pointDir = i >= 2 ?
+                    dir + (Math.PI / 3)
+                    : dir;
+            pointDist = i == 1 || i == 2 ?
+                    dist + size
+                    : dist;
+            xPoints[i] = (Game.WIDTH / 2) + (Math.cos(pointDir) * pointDist);
+            yPoints[i] = (Game.HEIGHT / 2) + (Math.sin(pointDir) * pointDist);
         }
-        
-        getPoints().addAll(coords);
-        
-//        changePoints(coords);
     }
     
-//    private void changePoints(Double[] coords) {
-//        getPoints().removeAll(coords);
-//        getPoints().addAll(coords);
-//    }
+    public void render(GraphicsContext gc) {
+        gc.fillPolygon(xPoints, yPoints, xPoints.length);
+    }
+    
+    public double[] getXPoints() {
+        return this.xPoints;
+    }
+    
+    public double[] getYPoints() {
+        return this.yPoints;
+    }
 }

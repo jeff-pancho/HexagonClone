@@ -1,61 +1,90 @@
 package main;
 
+import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javafx.scene.shape.Polygon;
-
 public class Game extends Application {
+    public static int WIDTH = 800;
+    public static int HEIGHT = 600;
     
     Scene scene;
     Group root;
+    Canvas canvas;
+    GraphicsContext gc;
+    ArrayList<Entity> entityList;
     
-    private void initStage(Stage stage) {
+    private void initStage(Stage stage, Scene scene) {
         stage.setScene(scene);
         stage.setTitle("HexagonClone");
         
-        stage.setMaxWidth(800);
-        stage.setMinWidth(800);
-        stage.setMaxHeight(600);
-        stage.setMinHeight(600);
+        stage.setMaxWidth(WIDTH);
+        stage.setMinWidth(WIDTH);
+        stage.setMaxHeight(HEIGHT);
+        stage.setMinHeight(HEIGHT);
         
         stage.resizableProperty().setValue(false);
+        stage.show();
     }
     
     @Override
     public void start(Stage stage) throws Exception {
+        canvas = new Canvas(WIDTH, HEIGHT);
+        root = new Group(canvas);
+        scene = new Scene(root, WIDTH, HEIGHT);
+        gc = canvas.getGraphicsContext2D();
         
-//        Side s1 = new Side(0, 25);
+        gc.setFill(Color.BLACK);
         
-//        root = new Group(s1);
-        root = new Group();
-        scene = new Scene(root, 800, 600);
         
-        Side[] sides = new Side[6];
-        for(int i = 0; i < sides.length; i++) {
-            sides[i] = new Side(1, 25);
-            root.getChildren().add(sides[i]);
+        
+        entityList = new ArrayList<Entity>();
+        
+        for(int i = 0; i < 5; i++) {
+            entityList.add(new Side(i, 20));
         }
-        initStage(stage);
-        stage.show();
+        
+        initStage(stage, scene);
         
         AnimationTimer animator = new AnimationTimer() {
-            double dir = 0;
+            int counter = 0;
             
             public void handle(long arg0) {
-                dir += Math.PI / 100;
-                for(int i = 0; i < sides.length; i++)
-                    sides[i].update(dir +((Math.PI / 3) * i));
+                if (counter++ >= 45) {
+                    for(int i = 0; i < 5; i++) {
+                        entityList.add(new Side(i, 20));
+                    }
+                    counter = 0;
+                }
+                
+                
+                update();
+                render(gc);
             }
         };
         
         animator.start();
     }
     
-    public void prt(Double[] a) {
+    private void update() {
+        for(Entity e : entityList)
+            e.update();
+    }
+    
+    private void render(GraphicsContext gc) {
+        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        for(Entity e : entityList)
+            e.render(gc);
+    }
+    
+    public static void prt(double[] a) {
         for(double d : a)
             System.out.print(d + " ");
         System.out.println();
