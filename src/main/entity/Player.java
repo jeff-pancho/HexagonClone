@@ -1,6 +1,9 @@
-package main;
+package main.entity;
 
 import javafx.scene.canvas.GraphicsContext;
+import main.Deletable;
+import main.Entity;
+import main.Game;
 
 public class Player extends Entity implements Deletable {
     private double[] xPoints;
@@ -9,7 +12,7 @@ public class Player extends Entity implements Deletable {
     private final double dist;
     private final double radius;
     
-    Player() {
+    public Player() {
         this.xPoints = new double[3];
         this.yPoints = new double[3];
         this.dir = 0;
@@ -17,7 +20,7 @@ public class Player extends Entity implements Deletable {
         this.radius = 10;
     }
 
-    void update() {
+    public void update() {
         if(Game.rightDown)
             dir += Math.PI / 25;
         else if (Game.leftDown)
@@ -25,15 +28,15 @@ public class Player extends Entity implements Deletable {
         
         double xPos = (Game.WIDTH / 2) + (Math.cos(dir + Game.dir) * dist);
         double yPos = (Game.HEIGHT / 2) + (Math.sin(dir + Game.dir) * dist);
+        double pointDir;
         for(int i = 0; i < 3; i ++) {
-            xPoints[i] = xPos + (Math.cos(dir + Game.dir 
-                    + (Math.PI * 2 / 3 * i)) * radius);
-            yPoints[i] = yPos + (Math.sin(dir + Game.dir 
-                    + (Math.PI * 2 / 3 * i)) * radius);
+            pointDir = dir + Game.dir + (Math.PI * 2 / 3 * i);
+            xPoints[i] = xPos + (Math.cos(pointDir) * radius);
+            yPoints[i] = yPos + (Math.sin(pointDir) * radius);
         }
     }
 
-    void render(GraphicsContext gc) {
+    public void render(GraphicsContext gc) {
         gc.fillPolygon(xPoints, yPoints, xPoints.length);
     }
     

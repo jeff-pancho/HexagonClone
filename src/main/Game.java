@@ -14,6 +14,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import main.entity.CenterHexagon;
+import main.entity.Player;
+import main.entity.Side;
 
 public class Game extends Application {
     public static final int WIDTH = 1024;
@@ -60,6 +63,7 @@ public class Game extends Application {
         
         entityList = new ArrayList<Entity>();
         entityList.add(new Player());
+        entityList.add(new CenterHexagon());
         
         initStage(stage, scene);
         
@@ -67,7 +71,7 @@ public class Game extends Application {
             int counter = 0;
             
             public void handle(long arg0) {
-                if (counter++ >= 30) {
+                if (counter++ >= 40) {
                     int offset = rd.nextInt(6);
                     for(int i = 0; i < 5; i++) {
                         entityList.add(new Side((i + offset) % 6, 20));
