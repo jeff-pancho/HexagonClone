@@ -52,6 +52,7 @@ public class Game extends Application {
         gc.setFill(Color.BLACK);
         
         entityList = new ArrayList<Entity>();
+        entityList.add(new Player());
         
         initStage(stage, scene);
         
@@ -81,7 +82,7 @@ public class Game extends Application {
         while(it.hasNext()) {
             Entity ent = it.next();
             ent.update();
-            if(ent.ifDelete())
+            if(ent instanceof Deletable && ((Deletable) ent).ifDelete())
                 it.remove();
         }
     }
@@ -90,12 +91,6 @@ public class Game extends Application {
         gc.clearRect(0, 0, WIDTH, HEIGHT);
         for(Entity e : entityList)
             e.render(gc);
-    }
-    
-    public static void prt(double[] a) {
-        for(double d : a)
-            System.out.print(d + " ");
-        System.out.println();
     }
     
     public void run() {

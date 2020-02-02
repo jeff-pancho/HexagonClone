@@ -2,7 +2,7 @@ package main;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class Side extends Entity {
+public class Side extends Entity implements Deletable {
     private double[] xPoints;
     private double[] yPoints;
     private double size;
@@ -36,8 +36,10 @@ public class Side extends Entity {
             pointDist = i == 1 || i == 2 ?
                     dist + size
                     : dist;
-            xPoints[i] = (Game.WIDTH / 2) + (Math.cos(Game.dir + pointDir) * pointDist);
-            yPoints[i] = (Game.HEIGHT / 2) + (Math.sin(Game.dir + pointDir) * pointDist);
+            xPoints[i] = (Game.WIDTH / 2) 
+                    + (Math.cos(Game.dir + pointDir) * pointDist);
+            yPoints[i] = (Game.HEIGHT / 2) 
+                    + (Math.sin(Game.dir + pointDir) * pointDist);
         }
     }
     
