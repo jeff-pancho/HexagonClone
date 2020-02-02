@@ -13,16 +13,23 @@ public class Player extends Entity implements Deletable {
         this.xPoints = new double[3];
         this.yPoints = new double[3];
         this.dir = 0;
-        this.dist = 60;
+        this.dist = 80;
         this.radius = 10;
     }
 
     void update() {
-        double xPos = (Game.WIDTH / 2) + (Math.cos(dir) * dist);
-        double yPos = (Game.HEIGHT / 2) + (Math.sin(dir) * dist);
+        if(Game.rightDown)
+            dir += Math.PI / 25;
+        else if (Game.leftDown)
+            dir -= Math.PI / 25;
+        
+        double xPos = (Game.WIDTH / 2) + (Math.cos(dir + Game.dir) * dist);
+        double yPos = (Game.HEIGHT / 2) + (Math.sin(dir + Game.dir) * dist);
         for(int i = 0; i < 3; i ++) {
-            xPoints[i] = xPos + (Math.cos(dir + (Math.PI * 2 / 3 * i)) * radius);
-            yPoints[i] = yPos + (Math.sin(dir + (Math.PI * 2 / 3 * i)) * radius);
+            xPoints[i] = xPos + (Math.cos(dir + Game.dir 
+                    + (Math.PI * 2 / 3 * i)) * radius);
+            yPoints[i] = yPos + (Math.sin(dir + Game.dir 
+                    + (Math.PI * 2 / 3 * i)) * radius);
         }
     }
 

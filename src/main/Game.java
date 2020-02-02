@@ -10,6 +10,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -18,14 +20,16 @@ public class Game extends Application {
     public static final int HEIGHT = 768;
     
     public static double dir = 0;
+    public static boolean leftDown = false;
+    public static boolean rightDown = false;
     
-    Scene scene;
-    Group root;
-    Canvas canvas;
-    GraphicsContext gc;
-    ArrayList<Entity> entityList;
-    Iterator<Entity> it;
-    Random rd;
+    private Scene scene;
+    private Group root;
+    private Canvas canvas;
+    private GraphicsContext gc;
+    private ArrayList<Entity> entityList;
+    private Iterator<Entity> it;
+    private Random rd;
     
     
     private void initStage(Stage stage, Scene scene) {
@@ -48,6 +52,9 @@ public class Game extends Application {
         scene = new Scene(root, WIDTH, HEIGHT);
         gc = canvas.getGraphicsContext2D();
         rd = new Random();
+        
+        scene.setOnKeyPressed(this::handleKeyPress);
+        scene.setOnKeyReleased(this::handleKeyRelease);
         
         gc.setFill(Color.BLACK);
         
@@ -74,6 +81,32 @@ public class Game extends Application {
         };
         
         animator.start();
+    }
+    
+    private void handleKeyPress(KeyEvent e) {
+        switch(e.getCode()) {
+        case RIGHT:
+            rightDown = true;
+            break;
+        case LEFT:
+            leftDown = true;
+            break;
+        default:
+            break;
+        }
+    }
+    
+    private void handleKeyRelease(KeyEvent e) {
+        switch(e.getCode()) {
+        case RIGHT:
+            rightDown = false;
+            break;
+        case LEFT:
+            leftDown = false;
+            break;
+        default:
+            break;
+        }
     }
     
     private void update() {
