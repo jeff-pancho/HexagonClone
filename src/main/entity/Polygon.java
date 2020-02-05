@@ -1,6 +1,7 @@
 package main.entity;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import main.Entity;
 import main.Game;
 
@@ -8,10 +9,11 @@ public abstract class Polygon extends Entity {
     protected double[] xPoints;
     protected double[] yPoints;
     protected double dir;
+    protected Color color;
     
-    public Polygon(int xPointsLen, int yPointsLen) {
+    public Polygon(int xPointsLen) {
         this.xPoints = new double[xPointsLen];
-        this.yPoints = new double[yPointsLen];
+        this.yPoints = new double[xPointsLen];
     }
     
     public double[] getXPoints() {
@@ -31,14 +33,19 @@ public abstract class Polygon extends Entity {
     }
     
     public void render(GraphicsContext gc) {
+        gc.setFill(color);
         gc.fillPolygon(xPoints, yPoints, xPoints.length);
+    }
+    
+    public void setColor(Color color) {
+        this.color = color;
     }
     
     public static void generatePolygon(double centerX, double centerY
             , double[] xPt, double[] yPt, double dir, double radius ) {
         double pointDir;
         for(int i = 0; i < xPt.length; i ++) {
-            pointDir = dir + (Math.PI * 2 / 3 * i);
+            pointDir = dir + (Math.PI * 2 / xPt.length * i);
             xPt[i] = centerX + (Math.cos(pointDir) * radius);
             yPt[i] = centerY + (Math.sin(pointDir) * radius);
         }
@@ -57,9 +64,9 @@ public abstract class Polygon extends Entity {
             pointDist = i == 1 || i == 2 ?
                     dist + size
                     : dist;
-            xPt[i] = (Game.WIDTH / 2) 
+            xPt[i] = Game.CENTER_X
                     + (Math.cos(pointDir) * pointDist);
-            yPt[i] = (Game.HEIGHT / 2) 
+            yPt[i] = Game.CENTER_Y
                     + (Math.sin(pointDir) * pointDist);
         }
     }

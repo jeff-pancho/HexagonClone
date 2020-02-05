@@ -1,20 +1,20 @@
 package main.entity;
 
+import javafx.scene.paint.Color;
 import main.Deletable;
 import main.Game;
 
 public class Side extends Polygon implements Deletable {
     private double size;
     private double dist;
-    private int side;
     
-    public Side(int side, double size) {
-        super(4, 4);
+    public Side(int side, double size, Color color) {
+        super(4);
         // starting distance should always be beyond the screen
         this.dist = 800;
         this.size = size;
-        this.side = side;
         this.dir = (Math.PI / 3) * side;
+        this.color = color;
     }
     
     public void update() {
@@ -23,7 +23,7 @@ public class Side extends Polygon implements Deletable {
     }
     
     public boolean ifDelete() {
-        return dist <= 40;
+        return dist <= 20;
     }
     
     public double getDir() {

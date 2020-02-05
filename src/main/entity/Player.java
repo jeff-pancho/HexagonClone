@@ -2,6 +2,7 @@ package main.entity;
 
 import java.util.ArrayList;
 
+import javafx.scene.paint.Color;
 import main.Deletable;
 import main.Entity;
 import main.Game;
@@ -12,12 +13,13 @@ public class Player extends Polygon implements Deletable {
     private final double radius;
     private ArrayList<Entity> entityList;
     
-    public Player(ArrayList<Entity> entityList) {
-        super(3, 3);
+    public Player(ArrayList<Entity> entityList, Color color) {
+        super(3);
         this.dir = 0;
         this.dist = 80;
         this.radius = 10;
         this.entityList = entityList;
+        this.color = color;
     }
 
     public void update() {
@@ -30,8 +32,8 @@ public class Player extends Polygon implements Deletable {
         if(dir < 0)
             dir += Math.PI * 2;
         
-        double xPos = (Game.WIDTH / 2) + (Math.cos(dir + Game.dir) * dist);
-        double yPos = (Game.HEIGHT / 2) + (Math.sin(dir + Game.dir) * dist);
+        double xPos = Game.CENTER_X + (Math.cos(dir + Game.dir) * dist);
+        double yPos = Game.CENTER_Y + (Math.sin(dir + Game.dir) * dist);
         Polygon.generatePolygon(xPos, yPos, xPoints, yPoints, dir + Game.dir
                 , radius);
     }

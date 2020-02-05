@@ -10,17 +10,20 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import main.entity.CenterHexagon;
 import main.entity.Player;
 import main.entity.Side;
+import main.entity.BackgroundPoly;
 
 public class Game extends Application {
     public static final int WIDTH = 1024;
     public static final int HEIGHT = 768;
+    
+    public static final int CENTER_X = WIDTH / 2;
+    public static final int CENTER_Y = HEIGHT / 2;
     
     public static double dir = 0;
     public static boolean leftDown = false;
@@ -62,8 +65,7 @@ public class Game extends Application {
         gc.setFill(Color.BLACK);
         
         entityList = new ArrayList<Entity>();
-        entityList.add(new Player(entityList));
-        entityList.add(new CenterHexagon());
+        restart();
         
         initStage(stage, scene);
         
@@ -72,12 +74,10 @@ public class Game extends Application {
             
             public void handle(long arg0) {
                 if (counter++ >= 40) {
-//                if(counter++ >= 120) {
                     int offset = rd.nextInt(6);
                     for(int i = 0; i < 5; i++) {
-                        entityList.add(new Side((i + offset) % 6, 20));
+                        entityList.add(6, new Side((i + offset) % 6, 20, Color.BLACK));
                     }
-//                    entityList.add(new Side((offset) % 6, 20));
                     counter = 0;
                 }
                 
@@ -121,7 +121,10 @@ public class Game extends Application {
     private void restart() {
         entityList.clear();
         dir = 0;
-        entityList.add(new Player(entityList));
+        for(int i = 0; i < 6; i++) {
+            entityList.add(new BackgroundPoly(i % 2 == 0 ? Color.rgb(93, 100, 110) : Color.WHITE, i));
+        }
+        entityList.add(new Player(entityList, Color.BLACK));
         entityList.add(new CenterHexagon());
     }
     
