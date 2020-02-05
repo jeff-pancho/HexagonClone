@@ -110,9 +110,19 @@ public class Game extends Application {
         case LEFT:
             leftDown = false;
             break;
+        case R:
+            restart();
+            break;
         default:
             break;
         }
+    }
+    
+    private void restart() {
+        entityList.clear();
+        dir = 0;
+        entityList.add(new Player(entityList));
+        entityList.add(new CenterHexagon());
     }
     
     private void update() {

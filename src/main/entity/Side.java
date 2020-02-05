@@ -18,7 +18,7 @@ public class Side extends Polygon implements Deletable {
     }
     
     public void update() {
-        dist -= 5;
+        dist -= 6;
         Polygon.generateSide(xPoints, yPoints, Game.dir + dir, dist, size);
     }
     
