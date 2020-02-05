@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import javafx.geometry.Point2D;
 
 import main.collision.Scalar;
+import main.entity.Entity;
 import main.entity.Polygon;
-import main.Entity;
 
 public class CollisionManager {
     private Entity ent;

@@ -14,6 +14,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import main.entity.CenterHexagon;
+import main.entity.Deletable;
+import main.entity.Entity;
+import main.entity.ObstacleMaker;
 import main.entity.Player;
 import main.entity.Side;
 import main.entity.BackgroundPoly;
@@ -36,6 +39,7 @@ public class Game extends Application {
     private ArrayList<Entity> entityList;
     private Iterator<Entity> it;
     private Random rd;
+    private ObstacleMaker obs;
     
     
     private void initStage(Stage stage, Scene scene) {
@@ -67,20 +71,15 @@ public class Game extends Application {
         entityList = new ArrayList<Entity>();
         restart();
         
+        obs = new ObstacleMaker(entityList);
+        
         initStage(stage, scene);
         
         AnimationTimer animator = new AnimationTimer() {
-            int counter = 0;
+//            int counter = 0;
+            
             
             public void handle(long arg0) {
-                if (counter++ >= 40) {
-                    int offset = rd.nextInt(6);
-                    for(int i = 0; i < 5; i++) {
-                        entityList.add(6, new Side((i + offset) % 6, 20, Color.BLACK));
-                    }
-                    counter = 0;
-                }
-                
                 update();
                 render(gc);
             }
@@ -129,6 +128,8 @@ public class Game extends Application {
     }
     
     private void update() {
+        obs.update();
+        
         it = entityList.iterator();
         dir += Math.PI / 100;
         while(it.hasNext()) {

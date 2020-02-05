@@ -3,8 +3,6 @@ package main.entity;
 import java.util.ArrayList;
 
 import javafx.scene.paint.Color;
-import main.Deletable;
-import main.Entity;
 import main.Game;
 import main.collision.CollisionManager;
 

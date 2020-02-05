@@ -2,7 +2,6 @@ package main.entity;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import main.Entity;
 import main.Game;
 
 public class CenterHexagon extends Entity {

@@ -1,7 +1,6 @@
 package main.entity;
 
 import javafx.scene.paint.Color;
-import main.Deletable;
 import main.Game;
 
 public class Side extends Polygon implements Deletable {
