@@ -6,6 +6,7 @@ import javafx.geometry.Point2D;
 import main.collision.Scalar;
 import main.entity.Entity;
 import main.entity.Polygon;
+import main.entity.Side;
 
 public class CollisionManager {
     private Entity ent;
@@ -16,9 +17,14 @@ public class CollisionManager {
     
     public boolean detectSideCollision(Polygon p2) {
         Polygon p1 = (Polygon) ent;
-        // check if entity is within the side's direction
+        /*
+         * Check if the polygon is within the side's direction
+         * and check if the side is within a reasonable distance
+         * away from the center
+         */
         if(p1.getDir() >= p2.getDir()
-                && p1.getDir() <= p2.getDir() + (Math.PI / 3)) {
+                && p1.getDir() <= p2.getDir() + (Math.PI / 3)
+                && ((Side) p2).getDist() <= 100) {
             return detectPolyCollision(p1, p2);
         }
         return false;

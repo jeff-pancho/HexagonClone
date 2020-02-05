@@ -28,4 +28,8 @@ public class Side extends Polygon implements Deletable {
     public double getDir() {
         return this.dir;
     }
+    
+    public double getDist() {
+        return this.dist;
+    }
 }
