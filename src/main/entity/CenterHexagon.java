@@ -20,7 +20,7 @@ public class CenterHexagon extends Entity {
     public void update() {
         
         for(int i = 0; i < xPoints.length; i++) {
-            Side.generateSide(xPoints[i], yPoints[i], Game.dir + (Math.PI / 3 * i), dist, size);
+            Polygon.generateSide(xPoints[i], yPoints[i], Game.dir + (Math.PI / 3 * i), dist, size);
         }
     }
 
