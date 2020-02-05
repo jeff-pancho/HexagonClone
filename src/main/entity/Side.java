@@ -7,10 +7,10 @@ public class Side extends Polygon implements Deletable {
     private double size;
     private double dist;
     
-    public Side(int side, double size, Color color) {
+    public Side(int side, double dist, double size, Color color) {
         super(4);
         // starting distance should always be beyond the screen
-        this.dist = 800;
+        this.dist = dist;
         this.size = size;
         this.dir = (Math.PI / 3) * side;
         this.color = color;
