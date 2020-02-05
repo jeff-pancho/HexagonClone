@@ -7,6 +7,7 @@ import main.Game;
 public abstract class Polygon extends Entity {
     protected double[] xPoints;
     protected double[] yPoints;
+    protected double dir;
     
     public Polygon(int xPointsLen, int yPointsLen) {
         this.xPoints = new double[xPointsLen];
@@ -19,6 +20,14 @@ public abstract class Polygon extends Entity {
     
     public double[] getYPoints() {
         return this.yPoints;
+    }
+    
+    public int getSides() {
+        return this.xPoints.length;
+    }
+    
+    public double getDir() {
+        return this.dir;
     }
     
     public void render(GraphicsContext gc) {

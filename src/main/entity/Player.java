@@ -2,13 +2,12 @@ package main.entity;
 
 import java.util.ArrayList;
 
-import javafx.scene.canvas.GraphicsContext;
 import main.Deletable;
 import main.Entity;
 import main.Game;
+import main.collision.CollisionManager;
 
 public class Player extends Polygon implements Deletable {
-    private double dir;
     private final double dist;
     private final double radius;
     private ArrayList<Entity> entityList;
@@ -38,18 +37,11 @@ public class Player extends Polygon implements Deletable {
     }
     
     public boolean ifDelete() {
+        CollisionManager c = new CollisionManager(this);
         for(Entity e : entityList) {
-            if(e instanceof Side && collideWith((Side) e)) {
-                System.out.println("Balls");
+            if(e instanceof Side && c.detectSideCollision((Polygon) e)) {
+                return true;
             }
-        }
-        return false;
-    }
-    
-    private boolean collideWith(Side s) {
-        // check if player is within the side's direction
-        if(dir >= s.getDir() && dir <= s.getDir() + (Math.PI / 3)) {
-            
         }
         return false;
     }

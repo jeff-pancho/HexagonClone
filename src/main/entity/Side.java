@@ -1,14 +1,11 @@
 package main.entity;
 
-import javafx.scene.canvas.GraphicsContext;
 import main.Deletable;
-import main.Entity;
 import main.Game;
 
 public class Side extends Polygon implements Deletable {
     private double size;
     private double dist;
-    private double dir;
     private int side;
     
     public Side(int side, double size) {
