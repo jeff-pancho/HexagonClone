@@ -55,4 +55,8 @@ public class Side extends Entity implements Deletable {
     public boolean ifDelete() {
         return dist <= 40;
     }
+    
+    public double getDir() {
+        return this.dir;
+    }
 }

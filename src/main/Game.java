@@ -62,7 +62,7 @@ public class Game extends Application {
         gc.setFill(Color.BLACK);
         
         entityList = new ArrayList<Entity>();
-        entityList.add(new Player());
+        entityList.add(new Player(entityList));
         entityList.add(new CenterHexagon());
         
         initStage(stage, scene);
@@ -71,11 +71,13 @@ public class Game extends Application {
             int counter = 0;
             
             public void handle(long arg0) {
-                if (counter++ >= 40) {
+//                if (counter++ >= 40) {
+                if(counter++ >= 120) {
                     int offset = rd.nextInt(6);
-                    for(int i = 0; i < 5; i++) {
-                        entityList.add(new Side((i + offset) % 6, 20));
-                    }
+//                    for(int i = 0; i < 5; i++) {
+//                        entityList.add(new Side((i + offset) % 6, 20));
+//                    }
+                    entityList.add(new Side((offset) % 6, 20));
                     counter = 0;
                 }
                 
