@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import javafx.scene.canvas.GraphicsContext;
 import main.input.Keyboard;
+import main.screen.GameScreen;
 import main.screen.Screen;
 import main.ui.UI;
 import main.ui.button.Button;
@@ -61,9 +62,14 @@ public class LevelMenu extends Menu {
                 changeButton(-1);
             else if (kb.isDown("RIGHT"))
                 changeButton(1);
-            else if (kb.isDown("ENTER"));
-            else if (kb.isDown("ESCAPE"))
+            else if (kb.isDown("ENTER")) {
+                curInd = 0;
+                curButton = buttons.get(curInd);
+                screens.push(new GameScreen(gc, kb, screens));
+            } else if (kb.isDown("ESCAPE")) {
                 screens.pop();
+                ((Menu) screens.peek()).resetMenu();
+            }
         }
         
         // Turn dir towards targetDir

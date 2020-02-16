@@ -28,10 +28,8 @@ public abstract class Menu extends Screen {
         super(gc, kb, screens);
         uiElements = new ArrayList<>();
         buttons = new ArrayList<>();
-
-        // Direction towards the north
-        dir = 3 * Math.PI / 2;
-        targetDir = dir;
+        
+        resetMenu();
     }
 
     /**
@@ -43,6 +41,19 @@ public abstract class Menu extends Screen {
 
         for (UI curUI : uiElements)
             curUI.render();
+    }
+    
+    /**
+     * Resets the Menu.
+     */
+    public void resetMenu() {
+        if(curButton != null)
+            curButton.setSwitching(true);
+        
+        // Direction towards the west
+        dir = Math.PI;
+//        dir = 3 * Math.PI / 2;
+        targetDir = 3 * Math.PI / 2;
     }
     
     /**

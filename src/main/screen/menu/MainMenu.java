@@ -58,9 +58,11 @@ public class MainMenu extends Menu {
             else if (kb.isDown("RIGHT"))
                 changeButton(1);
             else if (kb.isDown("ENTER"))
-                if(curButton == play)
+                if(curButton == play) {
+                    curInd = 0;
+                    curButton = buttons.get(curInd);
                     screens.push(new LevelMenu(gc, kb, screens));
-                else
+                } else
                     Platform.exit();
         }
         

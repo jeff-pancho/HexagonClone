@@ -10,6 +10,7 @@ import main.Game;
 public abstract class Polygon extends Entity {
     protected double[] xPoints;
     protected double[] yPoints;
+    protected double dir;
     
     /**
      * Create a polygon with the inputted number of points.
@@ -20,6 +21,17 @@ public abstract class Polygon extends Entity {
         super(gc);
         this.xPoints = new double[numPoints];
         this.yPoints = new double[numPoints];
+    }
+    
+    /**
+     * Render the Polygon.
+     * @param isFill if the polygon should be filled or stroked
+     */
+    public void render(boolean isFill) {
+        if(isFill)
+            gc.fillPolygon(xPoints, yPoints, xPoints.length);
+        else
+            gc.strokePolygon(xPoints, yPoints, xPoints.length);
     }
     
     /**
@@ -44,6 +56,22 @@ public abstract class Polygon extends Entity {
      */
     public int getNumPoints() {
         return this.xPoints.length;
+    }
+    
+    /**
+     * Return the Polygon's dir.
+     * @return dir
+     */
+    public double getDir() {
+        return this.dir;
+    }
+    
+    /**
+     * Set the Polygon's dir to the inputted amount.
+     * @param dir
+     */
+    public void setDir(double dir) {
+        this.dir = dir;
     }
     
     /**
