@@ -10,8 +10,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import main.input.Keyboard;
-import main.screen.MainMenu;
 import main.screen.Screen;
+import main.screen.menu.MainMenu;
 
 /**
  * The game.
