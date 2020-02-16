@@ -5,6 +5,8 @@ import java.util.Stack;
 
 import javafx.scene.canvas.GraphicsContext;
 import main.Game;
+import main.game.entity.BackgroundPoly;
+import main.game.entity.CenterHexagon;
 import main.game.entity.Entity;
 import main.game.entity.Player;
 import main.input.Keyboard;
@@ -16,6 +18,7 @@ import main.screen.menu.Menu;
  */
 public class GameScreen extends Screen {
     private ArrayList<Entity> entityList;
+    private double[] gameDir;
     
     /**
      * Initialize the GameScreen.
@@ -25,6 +28,7 @@ public class GameScreen extends Screen {
      */
     public GameScreen(GraphicsContext gc, Keyboard kb, Stack<Screen> screens) {
         super(gc, kb, screens);
+        this.gameDir = new double[] {0d};
         entityList = new ArrayList<>();
         restart();
     }
@@ -34,7 +38,12 @@ public class GameScreen extends Screen {
      */
     private void restart() {
         entityList.clear();
-        entityList.add(new Player(gc, kb));
+        
+        for(int i = 0; i < 6; i++)
+            entityList.add(new BackgroundPoly(gc, gameDir, i));
+        
+        entityList.add(new Player(gc, kb, gameDir));
+        entityList.add(new CenterHexagon(gc, gameDir));
     }
     
     /**
@@ -49,6 +58,8 @@ public class GameScreen extends Screen {
             screens.pop();
             ((Menu) screens.peek()).resetMenu();
         }
+        
+        gameDir[0] += Math.PI / 100;
     }
 
     /**

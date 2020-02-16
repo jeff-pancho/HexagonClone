@@ -11,16 +11,19 @@ public abstract class Polygon extends Entity {
     protected double[] xPoints;
     protected double[] yPoints;
     protected double dir;
+    protected double[] gameDir;
     
     /**
      * Create a polygon with the inputted number of points.
      * @param gc
      * @param numPoints
+     * @param gameDir
      */
-    public Polygon(GraphicsContext gc, int numPoints) {
+    public Polygon(GraphicsContext gc, int numPoints, double[] gameDir) {
         super(gc);
         this.xPoints = new double[numPoints];
         this.yPoints = new double[numPoints];
+        this.gameDir = gameDir;
     }
     
     /**

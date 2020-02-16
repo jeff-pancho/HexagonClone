@@ -1,6 +1,7 @@
 package main.game.entity;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import main.Game;
 import main.input.Keyboard;
 
@@ -20,10 +21,11 @@ public class Player extends Polygon {
      * GraphicsContext and keyboard.
      * @param gc
      * @param kb
+     * @param gameDir
      */
-    public Player(GraphicsContext gc, Keyboard kb) {
+    public Player(GraphicsContext gc, Keyboard kb, double[] gameDir) {
         // The player is a triangle, therefore 3 points are inputted.
-        super(gc, 3);
+        super(gc, 3, gameDir);
         this.kb = kb;
         
         this.dir = 0;
@@ -49,10 +51,13 @@ public class Player extends Polygon {
         if (dir < 0)
             dir += fullRot;
         
+        // the only way to pass by reference : )
+        final double offsetDir = dir + gameDir[0];
+        
         // Update the Player's xPoints and yPoints
-        double xPos = Game.CENTER_X + Math.cos(dir) * dist;
-        double yPos = Game.CENTER_Y + Math.sin(dir) * dist;
-        Polygon.generatePolygon(xPos, yPos, xPoints, yPoints, dir, radius);
+        double xPos = Game.CENTER_X + Math.cos(offsetDir) * dist;
+        double yPos = Game.CENTER_Y + Math.sin(offsetDir) * dist;
+        Polygon.generatePolygon(xPos, yPos, xPoints, yPoints, offsetDir, radius);
     }
     
     /**
@@ -60,6 +65,7 @@ public class Player extends Polygon {
      */
     @Override
     public void render() {
+        gc.setFill(Color.BLACK);
         render(true);
     }
 
