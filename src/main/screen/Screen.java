@@ -15,7 +15,7 @@ public abstract class Screen {
     protected final Stack<Screen> screens;
     
     /**
-     * Assigns a reference to the game's GraphicsContext, Keyboard, and Stack.
+     * Assigns a reference to the Screen's GraphicsContext, Keyboard, and Stack.
      * @param gc
      * @param kb
      * @param screens
