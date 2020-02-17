@@ -7,12 +7,17 @@ import java.util.Stack;
 
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
+import main.Game;
+import main.game.entity.BackgroundPoly;
+import main.game.entity.CenterHexagon;
+import main.game.entity.Entity;
 import main.input.Keyboard;
 import main.screen.Screen;
 import main.ui.UI;
 import main.ui.button.Button;
 import main.ui.button.main_menu.PlayButton;
 import main.ui.button.main_menu.QuitButton;
+import main.ui.title.main_menu.MainTitle;
 
 /**
  * The main menu that first appears when the game is started.
@@ -30,20 +35,23 @@ public class MainMenu extends Menu {
     public MainMenu(GraphicsContext gc, Keyboard kb, Stack<Screen> screens) {
         super(gc, kb, screens);
         
-        play = new PlayButton(gc);
-        quit = new QuitButton(gc);
+        play = new PlayButton(gc, menuDir);
+        quit = new QuitButton(gc, menuDir);
         
         curButton = play;
         curButton.setSwitching(true);
 
-        buttons.add(play);
-        buttons.add(quit);
-
-        uiElements.add(play);
-        uiElements.add(quit);
-//        uiElements.add(new MainTitle(gc));
+        addButton(play);
+        addButton(quit);
         
-        setButtonDir();
+        uiElements.add(new MainTitle(gc));
+        
+        for(int i = 0; i < 6; i++)
+            entities.add(new BackgroundPoly(gc, Game.CENTER_X, Game.HEIGHT + 100, menuDir, i));
+        
+        entities.add(new CenterHexagon(gc, Game.CENTER_X, Game.HEIGHT + 100, 200, menuDir));
+        
+//        setButtonDir();
     }
     
     /**
@@ -67,8 +75,11 @@ public class MainMenu extends Menu {
         }
         
         // Turn dir towards targetDir
-        dir -= (dir - targetDir) / 5;
+        menuDir[0] -= (menuDir[0] - targetDir) / easeFactor;
         setButtonDir();
+        
+        for (Entity curEnt : entities)
+            curEnt.update();
         
         for (UI curUI : uiElements)
             curUI.update();

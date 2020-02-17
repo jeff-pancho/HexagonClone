@@ -14,8 +14,8 @@ public class EasyButton extends Button {
      * Sets up the Easy Button.
      * @param gc
      */
-    public EasyButton(GraphicsContext gc) {
-        super(gc, new Image("file:./resources/button/level-menu/easy.png"));
+    public EasyButton(GraphicsContext gc, double[] menuDir) {
+        super(gc, new Image("file:./resources/button/level-menu/easy.png"), menuDir);
     }
      
 }

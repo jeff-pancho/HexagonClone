@@ -5,6 +5,7 @@ import java.util.Stack;
 
 import javafx.scene.canvas.GraphicsContext;
 import main.Game;
+import main.game.entity.Entity;
 import main.input.Keyboard;
 import main.screen.Screen;
 import main.ui.UI;
@@ -15,19 +16,24 @@ import main.ui.button.Button;
  * @author Jeff
  */
 public abstract class Menu extends Screen {
+    protected final ArrayList<Entity> entities;
     protected final ArrayList<UI> uiElements;
     protected final ArrayList<Button> buttons;
     
     protected int curInd;
     protected Button curButton;
     
-    protected double dir;
+    protected double[] menuDir;
     protected double targetDir;
+    protected int easeFactor;
 
     public Menu(GraphicsContext gc, Keyboard kb, Stack<Screen> screens) {
         super(gc, kb, screens);
-        uiElements = new ArrayList<>();
-        buttons = new ArrayList<>();
+        this.entities = new ArrayList<>();
+        this.uiElements = new ArrayList<>();
+        this.buttons = new ArrayList<>();
+        this.menuDir = new double[1];
+        this.easeFactor = 8;
         
         resetMenu();
     }
@@ -38,6 +44,9 @@ public abstract class Menu extends Screen {
     @Override
     public void render() {
         gc.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        
+        for (Entity curEnt : entities)
+            curEnt.render();
 
         for (UI curUI : uiElements)
             curUI.render();
@@ -51,9 +60,18 @@ public abstract class Menu extends Screen {
             curButton.setSwitching(true);
         
         // Direction towards the west
-        dir = Math.PI;
+        menuDir[0] = Math.PI;
 //        dir = 3 * Math.PI / 2;
         targetDir = 3 * Math.PI / 2;
+    }
+    
+    /**
+     * Add the Button to buttons and uiElements.
+     * @param button
+     */
+    protected void addButton(Button button) {
+        uiElements.add(button);
+        buttons.add(button);
     }
     
     /**
@@ -87,7 +105,8 @@ public abstract class Menu extends Screen {
         for(int i = 0; i < buttons.size(); i++) {
             Button b = buttons.get(i);
             final double fullRot = 2 * Math.PI;
-            b.setDir(dir + fullRot / buttons.size() * i);
+//            b.setDir(dir + fullRot / buttons.size() * i);
+            b.setDir(fullRot / buttons.size() * i);
         }
     }
 

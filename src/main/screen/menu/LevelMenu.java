@@ -6,6 +6,10 @@ package main.screen.menu;
 import java.util.Stack;
 
 import javafx.scene.canvas.GraphicsContext;
+import main.Game;
+import main.game.entity.BackgroundPoly;
+import main.game.entity.CenterHexagon;
+import main.game.entity.Entity;
 import main.input.Keyboard;
 import main.screen.GameScreen;
 import main.screen.Screen;
@@ -14,6 +18,7 @@ import main.ui.button.Button;
 import main.ui.button.level_menu.EasyButton;
 import main.ui.button.level_menu.HardButton;
 import main.ui.button.level_menu.MediumButton;
+import main.ui.title.level_menu.LevelTitle;
 
 /**
  * The level menu that appears when the user presses play on the
@@ -32,21 +37,23 @@ public class LevelMenu extends Menu {
     public LevelMenu(GraphicsContext gc, Keyboard kb, Stack<Screen> screens) {
         super(gc, kb, screens);
         
-        easy = new EasyButton(gc);
-        medium = new MediumButton(gc);
-        hard = new HardButton(gc);
+        easy = new EasyButton(gc, menuDir);
+        medium = new MediumButton(gc, menuDir);
+        hard = new HardButton(gc, menuDir);
         
         curButton = easy;
         curButton.setSwitching(true);
 
-        buttons.add(easy);
-        buttons.add(medium);
-        buttons.add(hard);
+        addButton(easy);
+        addButton(medium);
+        addButton(hard);
 
-        uiElements.add(easy);
-        uiElements.add(medium);
-        uiElements.add(hard);
-//        uiElements.add(new MainTitle(gc));
+        uiElements.add(new LevelTitle(gc));
+        
+        for(int i = 0; i < 6; i++)
+            entities.add(new BackgroundPoly(gc, Game.CENTER_X, Game.HEIGHT + 100, menuDir, i));
+        
+        entities.add(new CenterHexagon(gc, Game.CENTER_X, Game.HEIGHT + 100, 200, menuDir));
         
         setButtonDir();
     }
@@ -73,8 +80,11 @@ public class LevelMenu extends Menu {
         }
         
         // Turn dir towards targetDir
-        dir -= (dir - targetDir) / 5;
+        menuDir[0] -= (menuDir[0] - targetDir) / easeFactor;
         setButtonDir();
+        
+        for (Entity curEnt : entities)
+            curEnt.update();
         
         for (UI curUI : uiElements)
             curUI.update();

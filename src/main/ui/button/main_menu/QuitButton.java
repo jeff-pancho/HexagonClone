@@ -14,8 +14,8 @@ public class QuitButton extends Button {
      * Sets up the Quit Button.
      * @param gc
      */
-    public QuitButton(GraphicsContext gc) {
-        super(gc, new Image("file:./resources/button/main-menu/quit.png"));
+    public QuitButton(GraphicsContext gc, double[] menuDir) {
+        super(gc, new Image("file:./resources/button/main-menu/quit.png"), menuDir);
     }
      
 }

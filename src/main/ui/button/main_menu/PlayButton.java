@@ -14,8 +14,8 @@ public class PlayButton extends Button {
      * Sets up the Play Button.
      * @param gc
      */
-    public PlayButton(GraphicsContext gc) {
-        super(gc, new Image("file:./resources/button/main-menu/play.png"));
+    public PlayButton(GraphicsContext gc, double[] menuDir) {
+        super(gc, new Image("file:./resources/button/main-menu/play.png"), menuDir);
     }
      
 }

@@ -17,7 +17,7 @@ import main.screen.menu.Menu;
  * @author Jeff
  */
 public class GameScreen extends Screen {
-    private ArrayList<Entity> entityList;
+    private ArrayList<Entity> entities;
     private double[] gameDir;
     
     /**
@@ -29,7 +29,7 @@ public class GameScreen extends Screen {
     public GameScreen(GraphicsContext gc, Keyboard kb, Stack<Screen> screens) {
         super(gc, kb, screens);
         this.gameDir = new double[] {0d};
-        entityList = new ArrayList<>();
+        entities = new ArrayList<>();
         restart();
     }
     
@@ -37,13 +37,13 @@ public class GameScreen extends Screen {
      * Restart the game
      */
     private void restart() {
-        entityList.clear();
+        entities.clear();
         
         for(int i = 0; i < 6; i++)
-            entityList.add(new BackgroundPoly(gc, gameDir, i));
+            entities.add(new BackgroundPoly(gc, Game.CENTER_X, Game.CENTER_Y, gameDir, i));
         
-        entityList.add(new Player(gc, kb, gameDir));
-        entityList.add(new CenterHexagon(gc, gameDir));
+        entities.add(new Player(gc, kb, gameDir));
+        entities.add(new CenterHexagon(gc, Game.CENTER_X, Game.CENTER_Y, 60, gameDir));
     }
     
     /**
@@ -51,8 +51,8 @@ public class GameScreen extends Screen {
      */
     @Override
     public void update() {
-        for(Entity e : entityList)
-            e.update();
+        for(Entity curEnt : entities)
+            curEnt.update();
         
         if (kb.isDown("ESCAPE")) {
             screens.pop();
@@ -68,8 +68,8 @@ public class GameScreen extends Screen {
     @Override
     public void render() {
         gc.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
-        for(Entity e : entityList)
-            e.render();
+        for(Entity curEnt : entities)
+            curEnt.render();
     }
 
 }

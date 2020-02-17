@@ -18,6 +18,8 @@ public abstract class Button extends UI {
      * from the center.
      */
     protected double dir;
+    /** Reference to the menu's direction. */
+    protected double[] menuDir;
     /** Boolean that states whether or not the Button is being switched. */
     protected boolean switching;
     
@@ -26,17 +28,18 @@ public abstract class Button extends UI {
      * Initialize Button.
      * @param gc
      */
-    public Button(GraphicsContext gc, Image img) {
+    public Button(GraphicsContext gc, Image img, double[] menuDir) {
         super(gc);
         
         this.switching = false;
         this.img = img;
         this.width = img.getWidth();
         this.height = img.getHeight();
+        this.menuDir = menuDir;
         
         // Put the button past the window to hide it.
-        x = -300;
-        y = -300;
+        this.x = -300;
+        this.y = -300;
     }
     
     /**
@@ -49,13 +52,13 @@ public abstract class Button extends UI {
         final double dist = 200;
         final double targetDir = 3 * Math.PI / 2;
         
-        x = centerX + Math.cos(dir) * dist;
-        y = centerY + Math.sin(dir) * dist;
+        x = centerX + Math.cos(dir + menuDir[0]) * dist;
+        y = centerY + Math.sin(dir + menuDir[0]) * dist;
         
         // While switching, if it reaches its target position, set it to off.
         if (switching
-                && Math.abs(x - (centerX + Math.cos(targetDir) * dist)) <= 1
-                && Math.abs(y - (centerY + Math.sin(targetDir) * dist)) <= 1)
+                && Math.abs(x - (centerX + Math.cos(targetDir) * dist)) <= 5
+                && Math.abs(y - (centerY + Math.sin(targetDir) * dist)) <= 5)
             switching = false;
     }
     

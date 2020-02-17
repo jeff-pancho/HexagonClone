@@ -14,8 +14,8 @@ public class MediumButton extends Button {
      * Sets up the Medium Button.
      * @param gc
      */
-    public MediumButton(GraphicsContext gc) {
-        super(gc, new Image("file:./resources/button/level-menu/medium.png"));
+    public MediumButton(GraphicsContext gc, double[] menuDir) {
+        super(gc, new Image("file:./resources/button/level-menu/medium.png"), menuDir);
     }
      
 }

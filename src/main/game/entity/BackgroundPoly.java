@@ -10,15 +10,21 @@ import main.Game;
  */
 public class BackgroundPoly extends Polygon {
     private int side;
+    private final double centerX;
+    private final double centerY;
     
     /**
      * Initialize the BackgroundPoly.
      * @param gc
+     * @param centerX
+     * @param centerY
      * @param gameDir
      * @param side
      */
-    public BackgroundPoly(GraphicsContext gc, double[] gameDir, int side) {
+    public BackgroundPoly(GraphicsContext gc, double centerX, double centerY, double[] gameDir, int side) {
         super(gc, 3, gameDir);
+        this.centerX = centerX;
+        this.centerY = centerY;
         this.side = side;
         this.dir = Math.PI / 3 * side;
     }
@@ -35,10 +41,10 @@ public class BackgroundPoly extends Polygon {
                     dir
                     : dir + (Math.PI / 3));
             pointDist = i > 0 ?
-                    1000
+                    2000
                     : 0;
-            xPoints[i] = Game.CENTER_X + (Math.cos(pointDir) * pointDist);
-            yPoints[i] = Game.CENTER_Y + (Math.sin(pointDir) * pointDist);
+            xPoints[i] = centerX + (Math.cos(pointDir) * pointDist);
+            yPoints[i] = centerY + (Math.sin(pointDir) * pointDist);
         }
     }
     

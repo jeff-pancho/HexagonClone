@@ -11,17 +11,24 @@ import main.Game;
 public class CenterHexagon extends Polygon {
     private double strokeSize;
     private double radius;
+    private final double centerX;
+    private final double centerY;
     
     /**
      * Initialize the CenterHexagon, assigning a reference to
-     * the game's GraphicsContext.
+     * the game's GraphicsContext and direction.
      * @param gc
+     * @param centerX
+     * @param centerY
+     * @param radius
      * @param gameDir
      */
-    public CenterHexagon(GraphicsContext gc, double[] gameDir) {
+    public CenterHexagon(GraphicsContext gc, double centerX, double centerY, double radius, double[] gameDir) {
         super(gc, 6, gameDir);
         this.strokeSize = 5;
-        this.radius = 50;
+        this.radius = radius;
+        this.centerX = centerX;
+        this.centerY = centerY;
     }
     
     /**
@@ -30,7 +37,7 @@ public class CenterHexagon extends Polygon {
     @Override
     public void update() {
         final double offsetDir = dir + gameDir[0];
-        Polygon.generatePolygon(Game.CENTER_X, Game.CENTER_Y, xPoints, yPoints, offsetDir, radius);
+        Polygon.generatePolygon(centerX, centerY, xPoints, yPoints, offsetDir, radius);
     }
     
     /**
