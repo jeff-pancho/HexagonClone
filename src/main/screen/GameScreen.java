@@ -1,14 +1,18 @@
 package main.screen;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
 import java.util.Stack;
 
 import javafx.scene.canvas.GraphicsContext;
 import main.Game;
 import main.game.entity.BackgroundPoly;
 import main.game.entity.CenterHexagon;
+import main.game.entity.Deletable;
 import main.game.entity.Entity;
 import main.game.entity.Player;
+import main.game.entity.Wall;
 import main.input.Keyboard;
 import main.screen.menu.Menu;
 
@@ -19,6 +23,10 @@ import main.screen.menu.Menu;
 public class GameScreen extends Screen {
     private ArrayList<Entity> entities;
     private double[] gameDir;
+    private Random rd;
+    
+    /** Interval for spawning Walls. */
+    private int count;
     
     /**
      * Initialize the GameScreen.
@@ -29,7 +37,9 @@ public class GameScreen extends Screen {
     public GameScreen(GraphicsContext gc, Keyboard kb, Stack<Screen> screens) {
         super(gc, kb, screens);
         this.gameDir = new double[] {0d};
-        entities = new ArrayList<>();
+        this.entities = new ArrayList<>();
+        this.count = 30;
+        this.rd = new Random();
         restart();
     }
     
@@ -42,7 +52,7 @@ public class GameScreen extends Screen {
         for(int i = 0; i < 6; i++)
             entities.add(new BackgroundPoly(gc, Game.CENTER_X, Game.CENTER_Y, gameDir, i));
         
-        entities.add(new Player(gc, kb, gameDir));
+        entities.add(new Player(gc, kb, entities, gameDir));
         entities.add(new CenterHexagon(gc, Game.CENTER_X, Game.CENTER_Y, 60, gameDir));
     }
     
@@ -51,13 +61,27 @@ public class GameScreen extends Screen {
      */
     @Override
     public void update() {
-        for(Entity curEnt : entities)
+        if(count-- <= 0) {
+            int randSide = rd.nextInt(6);
+            for(int i = 0; i < 5; i++)
+                entities.add(6, new Wall(gc, gameDir, (randSide + i) % 6, 800, 50));
+            count = 45;
+        }
+        
+        
+        Iterator<Entity> it = entities.iterator();
+        while(it.hasNext()) {
+            Entity curEnt = it.next();
             curEnt.update();
+            if(curEnt instanceof Deletable && ((Deletable) curEnt).isDelete())
+                it.remove();
+        }
         
         if (kb.isDown("ESCAPE")) {
             screens.pop();
             ((Menu) screens.peek()).resetMenu();
-        }
+        } else if (kb.isDown("R"))
+            restart();
         
         gameDir[0] += Math.PI / 100;
     }
