@@ -3,6 +3,7 @@ package main.game.entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import main.Game;
+import main.ui.Palette;
 
 /**
  * A Polygon that makes up the background.
@@ -21,8 +22,8 @@ public class BackgroundPoly extends Polygon {
      * @param gameDir
      * @param side
      */
-    public BackgroundPoly(GraphicsContext gc, double centerX, double centerY, double[] gameDir, int side) {
-        super(gc, 3, gameDir);
+    public BackgroundPoly(GraphicsContext gc, double centerX, double centerY, double[] gameDir, Palette palette, int side) {
+        super(gc, 3, gameDir, palette);
         this.centerX = centerX;
         this.centerY = centerY;
         this.side = side;
@@ -53,7 +54,8 @@ public class BackgroundPoly extends Polygon {
      */
     @Override
     public void render() {
-        gc.setFill(side % 2 == 0 ? Color.PINK : Color.WHITE);
+//        gc.setFill(side % 2 == 0 ? Color.PINK : Color.WHITE);
+        gc.setFill(palette.getFillClr());
         render(true);
     }
 }

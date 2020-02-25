@@ -1,7 +1,9 @@
 package main.game.entity;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import main.Game;
+import main.ui.Palette;
 
 /**
  * A Polygon Entity with several xPoints and yPoints.
@@ -13,17 +15,20 @@ public abstract class Polygon extends Entity {
     protected double dir;
     protected double[] gameDir;
     
+    protected Palette palette;
+    
     /**
      * Create a polygon with the inputted number of points.
      * @param gc
      * @param numPoints
      * @param gameDir
      */
-    public Polygon(GraphicsContext gc, int numPoints, double[] gameDir) {
+    public Polygon(GraphicsContext gc, int numPoints, double[] gameDir, Palette palette) {
         super(gc);
         this.xPoints = new double[numPoints];
         this.yPoints = new double[numPoints];
         this.gameDir = gameDir;
+        this.palette = palette;
     }
     
     /**

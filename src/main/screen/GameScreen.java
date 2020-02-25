@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Stack;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import main.Game;
 import main.game.entity.BackgroundPoly;
 import main.game.entity.CenterHexagon;
@@ -15,6 +16,7 @@ import main.game.entity.Player;
 import main.game.entity.Wall;
 import main.input.Keyboard;
 import main.screen.menu.Menu;
+import main.ui.Palette;
 
 /**
  * Game Screen that appears when the player chooses a level.
@@ -28,6 +30,10 @@ public class GameScreen extends Screen {
     /** Interval for spawning Walls. */
     private int count;
     
+    private Palette bgPalette1;
+    private Palette bgPalette2;
+    private Palette plrPalette;
+    
     /**
      * Initialize the GameScreen.
      * @param gc
@@ -40,6 +46,11 @@ public class GameScreen extends Screen {
         this.entities = new ArrayList<>();
         this.count = 30;
         this.rd = new Random();
+        
+        bgPalette1 = new Palette(Color.BLACK, Color.PINK);
+        bgPalette2 = new Palette(Color.BLACK, Color.WHITE);
+        plrPalette = new Palette(Color.BLACK, Color.BLACK);
+        
         restart();
     }
     
@@ -49,11 +60,13 @@ public class GameScreen extends Screen {
     private void restart() {
         entities.clear();
         
-        for(int i = 0; i < 6; i++)
-            entities.add(new BackgroundPoly(gc, Game.CENTER_X, Game.CENTER_Y, gameDir, i));
+        for(int i = 0; i < 6; i++) {
+            Palette p = i % 2 == 0 ? bgPalette1 : bgPalette2;
+            entities.add(new BackgroundPoly(gc, Game.CENTER_X, Game.HEIGHT + 100, gameDir, p, i));
+        }
         
-        entities.add(new Player(gc, kb, entities, gameDir));
-        entities.add(new CenterHexagon(gc, Game.CENTER_X, Game.CENTER_Y, 60, gameDir));
+        entities.add(new Player(gc, kb, entities, gameDir, plrPalette));
+        entities.add(new CenterHexagon(gc, Game.CENTER_X, Game.CENTER_Y, 60, gameDir, bgPalette2));
     }
     
     /**
@@ -64,7 +77,7 @@ public class GameScreen extends Screen {
         if(count-- <= 0) {
             int randSide = rd.nextInt(6);
             for(int i = 0; i < 5; i++)
-                entities.add(6, new Wall(gc, gameDir, (randSide + i) % 6, 800, 50));
+                entities.add(6, new Wall(gc, gameDir, plrPalette, (randSide + i) % 6, 800, 50));
             count = 45;
         }
         

@@ -6,6 +6,7 @@ package main.screen.menu;
 import java.util.Stack;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import main.Game;
 import main.game.entity.BackgroundPoly;
 import main.game.entity.CenterHexagon;
@@ -13,6 +14,7 @@ import main.game.entity.Entity;
 import main.input.Keyboard;
 import main.screen.GameScreen;
 import main.screen.Screen;
+import main.ui.Palette;
 import main.ui.UI;
 import main.ui.button.Button;
 import main.ui.button.level_menu.EasyButton;
@@ -28,6 +30,11 @@ import main.ui.title.level_menu.LevelTitle;
 public class LevelMenu extends Menu {
     private final Button easy, medium, hard;
     
+    
+    
+    private Palette bgPalette1;
+    private Palette bgPalette2;
+    
     /**
      * Create new buttons to add to the menu.
      * @param gc
@@ -36,6 +43,9 @@ public class LevelMenu extends Menu {
      */
     public LevelMenu(GraphicsContext gc, Keyboard kb, Stack<Screen> screens) {
         super(gc, kb, screens);
+        
+        bgPalette1 = new Palette(Color.BLACK, Color.PINK);
+        bgPalette2 = new Palette(Color.BLACK, Color.WHITE);
         
         easy = new EasyButton(gc, menuDir);
         medium = new MediumButton(gc, menuDir);
@@ -50,10 +60,12 @@ public class LevelMenu extends Menu {
 
         uiElements.add(new LevelTitle(gc));
         
-        for(int i = 0; i < 6; i++)
-            entities.add(new BackgroundPoly(gc, Game.CENTER_X, Game.HEIGHT + 100, menuDir, i));
+        for(int i = 0; i < 6; i++) {
+            Palette p = i % 2 == 0 ? bgPalette1 : bgPalette2;
+            entities.add(new BackgroundPoly(gc, Game.CENTER_X, Game.HEIGHT + 100, menuDir, p, i));
+        }
         
-        entities.add(new CenterHexagon(gc, Game.CENTER_X, Game.HEIGHT + 100, 200, menuDir));
+        entities.add(new CenterHexagon(gc, Game.CENTER_X, Game.HEIGHT + 100, 200, menuDir, bgPalette2));
         
         setButtonDir();
     }
@@ -65,10 +77,14 @@ public class LevelMenu extends Menu {
     public void update() {
         // Keyboard input handling while no buttons are switching
         if (!curButton.isSwitching()) {
-            if (kb.isDown("LEFT"))
+            if (kb.isDown("LEFT")) {
                 changeButton(-1);
-            else if (kb.isDown("RIGHT"))
+                changePalette();
+            }
+            else if (kb.isDown("RIGHT")) {
                 changeButton(1);
+                changePalette();
+            }
             else if (kb.isDown("ENTER")) {
                 curInd = 0;
                 curButton = buttons.get(curInd);
@@ -88,6 +104,25 @@ public class LevelMenu extends Menu {
         
         for (UI curUI : uiElements)
             curUI.update();
+    }
+    
+    // TODO: FIX THIS GARBAGE
+    /**
+     * Change the Palettes depending on the selected button.
+     * 
+     */
+    private void changePalette() {
+        switch(curInd) {
+        case 0:
+            bgPalette1.setFillClr(Color.PINK);
+            break;
+        case 1:
+            bgPalette1.setFillClr(Color.GREEN);
+            break;
+        case 2:
+            bgPalette1.setFillClr(Color.RED);
+            break;
+        }
     }
     
 }

@@ -2,6 +2,7 @@ package main.game.entity;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import main.ui.Palette;
 
 /**
  * Wall obstacle in the Game.
@@ -11,8 +12,8 @@ public class Wall extends Polygon implements Deletable {
     private double size;
     private double dist;
 
-    public Wall(GraphicsContext gc, double[] gameDir, int side, double dist, double size) {
-        super(gc, 4, gameDir);
+    public Wall(GraphicsContext gc, double[] gameDir, Palette palette, int side, double dist, double size) {
+        super(gc, 4, gameDir, palette);
         this.dist = dist;
         this.size = size;
         this.dir = (Math.PI / 3) * side;
@@ -26,7 +27,8 @@ public class Wall extends Polygon implements Deletable {
 
     @Override
     public void render() {
-        gc.setFill(Color.BLACK);
+//        gc.setFill(Color.BLACK);
+        gc.setFill(palette.getFillClr());
         render(true);
     }
     

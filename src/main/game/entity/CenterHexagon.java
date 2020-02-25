@@ -3,6 +3,7 @@ package main.game.entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import main.Game;
+import main.ui.Palette;
 
 /**
  * The hexagon at the center of the window.
@@ -23,8 +24,8 @@ public class CenterHexagon extends Polygon {
      * @param radius
      * @param gameDir
      */
-    public CenterHexagon(GraphicsContext gc, double centerX, double centerY, double radius, double[] gameDir) {
-        super(gc, 6, gameDir);
+    public CenterHexagon(GraphicsContext gc, double centerX, double centerY, double radius, double[] gameDir, Palette palette) {
+        super(gc, 6, gameDir, palette);
         this.strokeSize = 5;
         this.radius = radius;
         this.centerX = centerX;
@@ -46,12 +47,14 @@ public class CenterHexagon extends Polygon {
     @Override
     public void render() {
         // Render the inner Hexagon.
-        gc.setFill(Color.WHITE);
+//        gc.setFill(Color.WHITE);
+        gc.setFill(palette.getFillClr());
         render(true);
         
         // Render the border of the Hexagon.
         gc.setLineWidth(strokeSize);
-        gc.setStroke(Color.BLACK);
+//        gc.setStroke(Color.BLACK);
+        gc.setStroke(palette.getStrokeClr());
         render(false);
     }
 

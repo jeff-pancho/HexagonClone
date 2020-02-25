@@ -10,6 +10,7 @@ import main.game.entity.Polygon;
 import main.game.entity.Wall;
 import main.game.collision.CollisionManager;
 import main.input.Keyboard;
+import main.ui.Palette;
 
 /**
  * The Player in the game.
@@ -32,9 +33,9 @@ public class Player extends Polygon implements Deletable {
      * @param kb
      * @param gameDir
      */
-    public Player(GraphicsContext gc, Keyboard kb, ArrayList<Entity> entities, double[] gameDir) {
+    public Player(GraphicsContext gc, Keyboard kb, ArrayList<Entity> entities, double[] gameDir, Palette palette) {
         // The player is a triangle, therefore 3 points are inputted.
-        super(gc, 3, gameDir);
+        super(gc, 3, gameDir, palette);
         this.kb = kb;
         this.entities = entities;
         this.dir = 0;
@@ -74,7 +75,8 @@ public class Player extends Polygon implements Deletable {
      */
     @Override
     public void render() {
-        gc.setFill(Color.BLACK);
+//        gc.setFill(Color.BLACK);
+        gc.setFill(palette.getFillClr());
         render(true);
     }
     
